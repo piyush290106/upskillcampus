@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Login · TinyLink{% endblock %}
+{% block content %}
+<h1>Login</h1>
+<form method="post" action="/auth/login_form" class="card">
+  <label>Username</label>
+  <input type="text" name="username" placeholder="yourname" required />
+  <label>Password</label>
+  <input type="password" name="password" placeholder="••••••••" required />
+  <button type="submit">Login</button>
+  <p class="muted">No account? <a href="/signup">Create one</a>.</p>
+</form>
+{% endblock %}

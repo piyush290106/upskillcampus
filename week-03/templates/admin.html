@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · TinyLink{% endblock %}
+{% block content %}
+<h1>Welcome, {{ me.username }}</h1>
+<p class="muted">Manage your links and view last 30 days of clicks.</p>
+
+<section class="card">
+  <h2>Your Links</h2>
+  {% if urls|length == 0 %}
+    <p>No links yet. Create one from the <a href="/">home page</a>.</p>
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Short</th>
+          <th>Target</th>
+          <th>Clicks</th>
+          <th>Expires</th>
+          <th>Analytics</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in urls %}
+          <tr>
+            <td><a target="_blank" href="/{{ u.short_code }}">/{{ u.short_code }}</a></td>
+            <td class="truncate" title="{{ u.long_url }}">{{ u.long_url }}</td>
+            <td>{{ u.clicks }}</td>
+            <td>{% if u.expires_at %}{{ u.expires_at.strftime("%Y-%m-%d") }}{% else %}—{% endif %}</td>
+            <td><button class="link-btn" data-code="{{ u.short_code }}">View</button></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</section>
+
+<section id="analytics" class="card" style="display:none;">
+  <h2 id="an-title">Analytics</h2>
+  <canvas id="chart" width="900" height="240"></canvas>
+  <table class="table compact" id="series-table">
+    <thead><tr><th>Date</th><th>Clicks</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<script>
+const btns = document.querySelectorAll('.link-btn');
+const chartCanvas = document.getElementById('chart');
+const seriesTableBody = document.querySelector('#series-table tbody');
+const anTitle = document.getElementById('an-title');
+const panel = document.getElementById('analytics');
+
+btns.forEach(b => {
+  b.addEventListener('click', async () => {
+    const code = b.dataset.code;
+    const res = await fetch(`/api/stats/${code}`);
+    if (!res.ok) { alert('Failed to load stats'); return; }
+    const data = await res.json();
+
+    // Title
+    anTitle.textContent = `Analytics for /${data.code} — Total: ${data.total_clicks}`;
+    panel.style.display = 'block';
+
+    // Table
+    seriesTableBody.innerHTML = '';
+    data.last_30_days.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${r.date}</td><td>${r.count}</td>`;
+      seriesTableBody.appendChild(tr);
+    });
+
+    // Simple bar chart (no libraries)
+    const ctx = chartCanvas.getContext('2d');
+    ctx.clearRect(0,0,chartCanvas.width,chartCanvas.height);
+    const padding = 30;
+    const W = chartCanvas.width, H = chartCanvas.height;
+    const innerW = W - padding*2, innerH = H - padding*2;
+    const maxY = Math.max(1, ...data.last_30_days.map(d => d.count));
+    const barW = innerW / data.last_30_days.length;
+
+    // axes
+    ctx.strokeStyle = '#999';
+    ctx.beginPath();
+    ctx.moveTo(padding, H - padding);
+    ctx.lineTo(W - padding, H - padding);
+    ctx.moveTo(padding, H - padding);
+    ctx.lineTo(padding, padding);
+    ctx.stroke();
+
+    // bars
+    ctx.fillStyle = '#2d6cdf';
+    data.last_30_days.forEach((d, i) => {
+      const h = (d.count / maxY) * (innerH - 10);
+      const x = padding + i * barW + 2;
+      const y = H - padding - h;
+      ctx.fillRect(x, y, Math.max(2, barW - 4), h);
+    });
+
+    // y max label
+    ctx.fillStyle = '#555';
+    ctx.font = '12px system-ui, sans-serif';
+    ctx.fillText(maxY.toString(), 5, padding + 5);
+  });
+});
+</script>
+{% endblock %}
+    

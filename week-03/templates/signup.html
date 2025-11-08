@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Sign up · TinyLink{% endblock %}
+{% block content %}
+<h1>Create an account</h1>
+<form method="post" action="/auth/signup_form" class="card">
+  <label>Username</label>
+  <input type="text" name="username" placeholder="yourname" required />
+  <label>Password</label>
+  <input type="password" name="password" placeholder="••••••••" required />
+  <button type="submit">Sign up</button>
+  <p class="muted">Already have an account? <a href="/login">Log in</a>.</p>
+</form>
+{% endblock %}

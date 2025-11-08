@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}TinyLink{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="/static/styles.css" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">TinyLink</a>
+    <nav class="nav">
+      <a href="/">Home</a>
+      <a href="/admin">Dashboard</a>
+      <a href="/login">Login</a>
+      <a href="/signup" class="btn">Sign up</a>
+      <a href="/logout" class="muted">Logout</a>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <small>Week-03: Auth + Analytics + Deploy-ready</small>
+  </footer>
+</body>
+</html>

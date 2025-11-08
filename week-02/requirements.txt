@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+sqlmodel
+psycopg2-binary     # for PostgreSQL; omit if using SQLite only
+jinja2
+redis               # optional: only if using Redis caching
+qrcode[pil]         # optional: for QR code generation

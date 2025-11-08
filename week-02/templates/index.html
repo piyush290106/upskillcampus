@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>TinyLink</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🔗</div>
+      <div class="title">TinyLink</div>
+    </div>
+
+    <div class="card">
+      <form class="form" method="post" action="/shorten">
+        <div>
+          <label for="long_url">Long URL</label>
+          <input class="input" type="url" id="long_url" name="long_url"
+                 placeholder="https://example.com/very/long/path?with=params" required />
+        </div>
+
+        <div>
+          <label for="alias">Custom alias (optional)</label>
+          <input class="input" type="text" id="alias" name="alias" placeholder="alphanumeric, 4–16" />
+        </div>
+
+        <div>
+          <label for="expiry_days">Expiry (days, optional)</label>
+          <input class="input" type="number" id="expiry_days" name="expiry_days" min="1" max="365" placeholder="e.g., 30" />
+        </div>
+
+        <div>
+          <button class="btn" type="submit">Shorten</button>
+        </div>
+      </form>
+
+      {% if short_url %}
+      <div class="result">
+        <div>
+          <strong>Short URL:</strong>
+          <a class="mono" href="{{ short_url }}" target="_blank">{{ short_url }}</a>
+        </div>
+        <div class="note">Original: {{ long_url }}</div>
+        {% if code %}
+        <div class="note"><a href="/qrcode/{{ code }}.png" target="_blank">Download QR</a></div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <div class="links">
+        <a href="/admin">Admin</a>
+        <span>•</span>
+        <a href="/health">Health</a>
+      </div>
+    </div>
+
+    <div class="footer">Tip: Expired links return <strong>HTTP 410 Gone</strong>.</div>
+  </div>
+</body>
+</html>

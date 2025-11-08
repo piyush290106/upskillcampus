@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Shorten a link · TinyLink{% endblock %}
+{% block content %}
+<h1>Shorten a link</h1>
+<form method="post" action="/shorten" class="card">
+  <label>Long URL</label>
+  <input type="url" name="long_url" placeholder="https://example.com/very/long/path" required />
+
+  <div class="grid2">
+    <div>
+      <label>Custom alias (optional)</label>
+      <input type="text" name="alias" placeholder="my-link" />
+    </div>
+    <div>
+      <label>Expiry (days)</label>
+      <input type="number" name="expiry_days" min="1" max="365" placeholder="e.g. 30" />
+    </div>
+  </div>
+
+  <button type="submit">Shorten</button>
+</form>
+
+{% if short_url %}
+  <div class="card success">
+    <p><strong>Short URL:</strong> <a href="{{ short_url }}" target="_blank">{{ short_url }}</a></p>
+    <p>Code: <code>{{ code }}</code></p>
+    <p>QR: <a href="/qrcode/{{ code }}.png" target="_blank">Download</a></p>
+  </div>
+{% endif %}
+
+<section class="note">
+  <p>Tip: <a href="/signup">Sign up</a> to manage your links and view analytics.</p>
+</section>
+{% endblock %}
+

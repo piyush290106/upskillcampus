@@ -1,0 +1,97 @@
+/* ===== TinyLink — minimal, modern theme ===== */
+:root{
+  --bg:#0b1020;
+  --panel:#11162a;
+  --muted:#96a0b5;
+  --text:#e6ebff;
+  --accent:#6ea8ff;
+  --accent-2:#8cffde;
+  --border:#1b2340;
+  --success:#1dcd9a;
+  --danger:#ff7a7a;
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --radius:14px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:linear-gradient(180deg,#0a0f1e 0%, #0b1020 60%, #0d1226 100%);
+  color:var(--text); font:16px/1.55 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+}
+
+/* layout */
+.container{
+  max-width: 980px; margin: 48px auto; padding: 0 20px;
+}
+.header{
+  display:flex; align-items:center; gap:14px; margin-bottom:22px;
+}
+.logo{
+  width:42px; height:42px; display:grid; place-items:center; border-radius:12px;
+  background:linear-gradient(135deg, var(--accent), var(--accent-2));
+  color:#0a0f1e; font-size:22px; box-shadow: var(--shadow);
+}
+.title{font-size:28px; font-weight:800; letter-spacing:.2px}
+
+/* card */
+.card{
+  background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow: var(--shadow); padding:22px;
+}
+
+/* form */
+.form{
+  display:grid; grid-template-columns: 1fr 260px 160px auto; gap:12px; align-items:end;
+}
+.form label{font-size:.9rem; color:var(--muted); display:block; margin-bottom:6px}
+.input{
+  width:100%; padding:12px 13px; border-radius:10px;
+  background:#0e1430; color:var(--text); border:1px solid #1a2142;
+  outline:none; transition: border .15s ease, box-shadow .15s ease;
+}
+.input::placeholder{color:#7180a8}
+.input:focus{border-color:var(--accent); box-shadow:0 0 0 3px rgba(110,168,255,.15)}
+
+.btn{
+  padding:12px 18px; border:0; border-radius:10px; cursor:pointer;
+  color:#0a0f1e; background:linear-gradient(135deg, var(--accent), #7bb0ff);
+  font-weight:700; letter-spacing:.2px; box-shadow: var(--shadow);
+  transition: transform .06s ease, filter .15s ease;
+}
+.btn:hover{filter:brightness(1.07)}
+.btn:active{transform: translateY(1px)}
+
+/* result */
+.result{
+  margin-top:18px; padding:16px; border-radius:12px; border:1px dashed #2a375f;
+  background:rgba(110,168,255,.08);
+}
+.result .mono{
+  display:inline-block; margin-left:8px; padding:4px 8px; border-radius:8px;
+  background:#0b1436; border:1px solid #223068; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* links row */
+.links{margin-top:10px; display:flex; gap:14px; color:var(--muted)}
+.links a{color:var(--accent-2); text-decoration:none}
+.links a:hover{text-decoration:underline}
+
+/* table (admin) */
+.table{
+  width:100%; border-collapse: collapse; margin-top:6px;
+}
+.table th, .table td{
+  padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);
+}
+.table th{color:#b8c2de; font-weight:700; background:#0e1531}
+.badge{
+  display:inline-block; padding:2px 8px; border-radius:999px; background:#0e1a3f; color:#cfe0ff; border:1px solid #233362;
+}
+
+/* small */
+.note{color:var(--muted); font-size:.9rem; margin-top:8px}
+.footer{margin-top:22px; color:var(--muted); font-size:.85rem}
+@media(max-width:980px){
+  .form{grid-template-columns:1fr}
+}
